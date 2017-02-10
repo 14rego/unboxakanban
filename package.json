@@ -1,0 +1,26 @@
+{
+	"name": "unboxakanban",
+	"version": "1.0.0",
+	"description": "Node.js and MySQL app",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://bitbucket.org/14rego/unboxakanban"
+	},
+	"author": "Regan Bourland",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://bitbucket.org/14rego/unboxakanban/issues"
+	},
+	"homepage": "https://bitbucket.org/14rego/unboxakanban",
+	"dependencies": {
+		"body-parser": "^1.16.0",
+		"bootstrap": "^3.3.7",
+		"express": "^4.14.0",
+		"node-mysql": "^0.4.2",
+		"mysql": "^2.6.2"
+	}
+}

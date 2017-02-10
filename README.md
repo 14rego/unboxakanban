@@ -1,15 +1,23 @@
 # README #
 
-Thanks for reading the Read Me.
-
 ### What is this repository for? ###
 
 * HTML5 Kanban you can run locally
-* 0.0.1 Beta
+* 1.0.0
+
+### Included Technologies ###
+
+* jQuery 1.12.4
+* Twitter Bootstrap 3.3
+* Angular 2
 
 ### How do I get set up? ###
 
-* You can use the /helpful PKGs to install helpful things you might need if you don't already have them
+* You need a node server running.
+* You need a local database of any kind. MySQL setup included and instructions provided.
+    - native works - https://dev.mysql.com/downloads/mysql/
+    - MySQL with Homebrew ( http://brew.sh/ ) guide - https://gist.github.com/nrollr/3f57fc15ded7dddddcc4e82fe137b58e
+    - SequelPro is a free SQL app for Mac - http://www.sequelpro.com/
 
 ### Who do I talk to? ###
 
