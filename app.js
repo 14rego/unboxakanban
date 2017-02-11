@@ -30,30 +30,36 @@ connection.query('SELECT * from users', function(err, rows, fields) {
 
 // Binding express app to port 3000
 app.listen(3000,function(){
-    console.log('Node ssoerver running @ http://localhost:3000')
+    console.log('Node server running @ http://localhost:3000')
 });
+
+// ROUTING
+var mvcViews =  '/views/dist';
 
 app.use('/node_modules',  express.static(__dirname + '/node_modules'));
-app.use('/style',  express.static(__dirname + '/style'));
-app.use('/script',  express.static(__dirname + '/script'));
+app.use('/resources/style',  express.static(__dirname + '/resources/style'));
+app.use('/resources/script',  express.static(__dirname + '/resources/script'));
 
 app.get('/',function(req,res){
-    res.sendFile('home.html',{'root': __dirname + '/templates'});
+    res.sendFile('home.html',{'root': __dirname + mvcViews});
 });
-app.get('/showSignInPage',function(req,res){
-    res.sendFile('signin.html',{'root': __dirname + '/templates'});
+app.get('/user',function(req,res){
+    res.sendFile('user.html',{'root': __dirname + mvcViews});
 });
-app.get('/showSignInPageRetry',function(req,res){
-    res.sendFile('signinretry.html',{'root': __dirname + '/templates'});
+app.get('/sign-in',function(req,res){
+    res.sendFile('userSignIn.html',{'root': __dirname + mvcViews});
 });
-app.get('/showSignUpPage',function(req,res){
-	res.sendFile('signup.html',{'root':__dirname + '/templates'})
+app.get('/sign-in-retry',function(req,res){
+    res.sendFile('userSignInRetry.html',{'root': __dirname + mvcViews});
 });
-app.get('/message',function(req,res){
-    res.sendFile('message.html',{'root': __dirname + '/templates'});
+app.get('/signed-in',function(req,res){
+    res.sendFile('userSignedIn.html',{'root': __dirname + mvcViews});
 });
-app.get('/loggedin',function(req,res){
-    res.sendFile('loggedin.html',{'root': __dirname + '/templates'});
+app.get('/sign-up',function(req,res){
+	res.sendFile('userSignUp.html',{'root':__dirname + mvcViews})
+});
+app.get('/signed-up',function(req,res){
+    res.sendFile('userSignedUp.html',{'root': __dirname + mvcViews});
 });
 
 
@@ -68,7 +74,7 @@ app.post('/createuser', function(req, res) {
 			//console.log('Last record insert id:', res.insertId);
 	  	}
 	});
-	res.redirect('/message');
+	res.redirect('/signed-up');
 	res.end();
 });
 
@@ -85,10 +91,10 @@ app.post('/verifyuser', function(req,res){
 	    //console.log(string);
 
 	    if (string === '[{"COUNT(email)":1}]') {
-			res.redirect('/loggedin');
+			res.redirect('/signed-in');
 	    } else {
 	    	console.log('Login Error: '+err);
-	    	res.redirect('/showSignInPageRetry');
+	    	res.redirect('/sign-in-retry');
 	    }
 		res.end();
 	});

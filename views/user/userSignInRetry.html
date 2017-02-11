@@ -1,0 +1,14 @@
+<!-- build:pg -->user-sign-in<!-- /build:pg -->
+<!-- build:title -->Sign In<!-- /build:title -->
+<!-- build:content -->
+<form class="form-signin" action="/verifyuser" method="post">
+<h2 class="text-center">Please try again.</h2>
+<h4 class="text-center">Wrong Username/Password</h2>
+<label for="email" class="sr-only">Your Email address</label>
+<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
+<label for="pass" class="sr-only">New Password</label>
+<input type="password" id="pass" class="form-control" name="pass" placeholder="Password" required="">
+
+<button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+</form>
+<!-- /build:content -->

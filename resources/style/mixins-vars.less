@@ -1,0 +1,21 @@
+@import "../lib/bootstrap-3.3.7/less/variables.less";
+
+// Breakpoints
+// ------------------------- Source: http://blog.scur.pl/2012/06/variable-media-queries-less-css/
+// @media @mobile { }
+// @media @desktop, @desktop-xl { }
+
+
+@highdensity: ~"only screen and (-webkit-min-device-pixel-ratio: 1.5) and (min--moz-device-pixel-ratio: 1.5) and (-o-min-device-pixel-ratio: 3/2) and (min-device-pixel-ratio: 1.5)";
+
+@mobile:      ~"only screen and (max-width: @{screen-sm-max})";
+@not-mobile:  ~"only screen and (min-width: @{screen-sm-min})";
+
+@tablet:      ~"only screen and (min-width: @{screen-xs-min}) and (max-width: @{screen-sm-max})";
+@desktop:     ~"only screen and (min-width: @{screen-sm-min}) and (max-width: @{screen-md-max})";
+@desktop-xl:  ~"only screen and (min-width: @{screen-lg-min})";
+
+// Other useful vars
+@height-header: 50px;
+@padding-sidebar: 20px;
+@border-sidebar: 1px;
