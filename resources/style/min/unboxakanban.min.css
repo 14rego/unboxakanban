@@ -1,3 +1,12 @@
+.hiding {
+  display: none;
+}
+.showing {
+  display: block;
+}
+.error-msg {
+  color: #d9534f;
+}
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
@@ -6721,6 +6730,15 @@ button.close {
     display: none !important;
   }
 }
+.hiding {
+  display: none;
+}
+.showing {
+  display: block;
+}
+.error-msg {
+  color: #d9534f;
+}
 body {
   padding-top: 50px;
 }
@@ -6775,63 +6793,4 @@ body {
 }
 .main .page-header {
   margin-top: 0;
-}
-[class*='col-'] {
-  float: left;
-}
-*,
-*:after,
-*:before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-h3 {
-  text-align: center;
-  margin-bottom: 0;
-}
-[class*='col-'] {
-  padding-right: 20px;
-  padding-bottom: 20px;
-}
-[class*='col-']:last-of-type {
-  padding-right: 0;
-}
-.grid {
-  margin: 0 10em;
-}
-.col-1–4 {
-  width: 25%;
-}
-.module {
-  padding: 20px;
-  text-align: center;
-  color: #eee;
-  max-height: 120px;
-  min-width: 120px;
-  background-color: #1171a3;
-}
-.module:hover {
-  background-color: #52b9e9;
-  cursor: pointer;
-}
-.grid-pad {
-  padding: 20px 0 20px 20px;
-}
-.grid-pad > [class*='col-']:last-of-type {
-  padding-right: 20px;
-}
-@media (max-width: 600px) {
-  .module {
-    font-size: 10px;
-    max-height: 75px;
-  }
-}
-@media (max-width: 1024px) {
-  .grid {
-    margin: 0;
-  }
-  .module {
-    min-width: 60px;
-  }
 }

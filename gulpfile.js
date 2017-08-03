@@ -49,11 +49,26 @@ gulp.task('less', 'Compile less into a single CSS.', function() {
         .pipe(notify('CSS ( ' + moment().format('h:mm:ss') + ' )'));
 });
 
-gulp.task('html-build-user', 'Build HTML files with partials.', function() {
-    gulp.src('views/user/*.html')
-          .pipe(template('views/layouts/user.html'))
-          .pipe(gulp.dest('views/dist'))
-          .pipe(notify('HTML ( ' + moment().format('h:mm:ss') + ' )'));
+gulp.task('html-build-public', 'Build public HTML files with partials.', function() {
+    gulp.src([
+    		'views/home/home.html',
+    		'views/user/userSignUp.html',
+    		'views/user/userSignIn.html',
+    		'views/user/userSignInRetry.html'
+		])
+		.pipe(template('views/layouts/public.html'))
+		.pipe(gulp.dest('views/dist'))
+		.pipe(notify('Public HTML ( ' + moment().format('h:mm:ss') + ' )'));
+});
+
+gulp.task('html-build-auth', 'Build authenticated HTML files with partials.', function() {
+    gulp.src([
+    		'views/user/userDashboard.html',
+    		'views/user/userDashboard.html'
+		])
+		.pipe(template('views/layouts/authenticated.html'))
+		.pipe(gulp.dest('views/dist'))
+		.pipe(notify('Auth*d HTML ( ' + moment().format('h:mm:ss') + ' )'));
 });
 
 gulp.task('watch', 'Watch for changes.', function() {
@@ -71,9 +86,10 @@ gulp.task('watch', 'Watch for changes.', function() {
     });
 
     watch({
-        glob: 'views/user/*.html',
+        glob: 'views/*/*.html',
     }, function() {
-        gulp.start('html-build-user');
+        gulp.start('html-build-public');
+        gulp.start('html-build-auth');
     });
 });
 

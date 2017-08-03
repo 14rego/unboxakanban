@@ -13,7 +13,9 @@
 
 ### How do I get set up? ###
 
-* You need a node server running.
+* You need a node server running
+    - cd <root folder> 
+    - node app.js
 * You need a local database of any kind. MySQL setup included and instructions provided.
     - native works - https://dev.mysql.com/downloads/mysql/
     - MySQL with Homebrew ( http://brew.sh/ ) guide - https://gist.github.com/nrollr/3f57fc15ded7dddddcc4e82fe137b58e

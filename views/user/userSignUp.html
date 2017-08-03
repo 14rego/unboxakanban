@@ -1,13 +1,86 @@
 <!-- build:pg -->user-sign-up<!-- /build:pg -->
 <!-- build:title -->Sign Up<!-- /build:title -->
 <!-- build:content -->
-<form class="form-signin" action="/createuser" method="post">
-<h2 class="email">Please sign up</h2>
-<label for="email" class="sr-only">Your Email address</label>
-<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
-<label for="pass" class="sr-only">New Password</label>
-<input type="password" id="pass" class="form-control" name="pass" placeholder="Password" required="">
-
-<button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-</form>
+<h1 class="h2 text-center">Sign Up</h1>
+<div class="well">
+	<form class="form-sign-up" method="post" action="/create-user">
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-md-9">
+				<div class="form-group">
+					<label for="email" class="sr-only">Your Email address</label>
+					<input type="email" id="email" name="email" class="form-control" placeholder="Email address" maxlength="50" required="required" autofocus="autofocus"/>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-4 col-md-3">
+				<div class="form-group">
+					<label for="initials" class="sr-only">Initials</label>
+					<input type="text" id="initials" name="initials" maxlength="3" class="form-control" placeholder="Initials (optional)"/>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label for="pass" class="sr-only">New Password</label>
+					<input type="password" id="pass" class="form-control" name="pass" placeholder="Password" maxlength="20" required="required"/>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<p class="text-center">
+					<button id="btnSubmit" class="btn btn-lg btn-primary" type="submit"> Register <i class="fa fa-rotate fa-loading hiding">loading...</i></button>
+				</p>
+			</div>
+		</div>
+	</form>
+	<div class="form-result successful hiding">
+		<p class="h3 text-center">Sign Up Successful</p>
+		<p class="text-center"><a href="/sign-in" class="btn btn-lg btn-primary">Continue to Sign In</a></p>
+	</div>
+	<div class="form-result failure hiding">
+		<p class="error-msg text-center">Unfortunately, there was an error. Please try again or <a href="">log an issue</a>.</p>
+	</div>
+</div>
 <!-- /build:content -->
+<!-- build:foot -->
+<script type="text/javascript">
+$(function(){
+	$('.form-sign-up').on('submit', function(event){
+		event.preventDefault();
+		var successful = false;
+		
+		$('#btnSubmit .fa-loading').show();
+		console.log('submit');
+		$.ajax({
+			url: '/create-user',
+			type:'POST',
+			data: $('.form-sign-up').serialize(),
+			success:function(response){
+				if (response == 'success'){
+					validateFrom(true);
+				} else {
+					validateFrom(response);
+				}
+			},
+			error:function(error){
+				validateFrom(error);
+			}
+		});
+		
+	});
+	var validateForm = function(successful){
+		if (successful === true) {
+			$('.form-result.successful').show();
+			$('.form-result.failure, .form-sign-up').hide();
+			console.log('form success');
+		} else {
+			$('.form-result.failure, .form-sign-up').show();
+			$('.form-result.successful').hide();
+			console.log(successful);
+		}
+		$('#btnSubmit .fa-loading').hide();
+	}
+});
+</script>
+<!-- /build:foot -->

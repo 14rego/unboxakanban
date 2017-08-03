@@ -1,12 +1,81 @@
 <!-- build:pg -->user-sign-in<!-- /build:pg -->
 <!-- build:title -->Sign In<!-- /build:title -->
 <!-- build:content -->
-<form class="form-signin" action="/verifyuser" method="post"  >
-<h2 class="email">Please Log in</h2>
-<label for="email" class="sr-only">Your Email address</label>
-<input type="email" id="email" name="email" class="form-control" placeholder="Email address" required="" autofocus="">
-<label for="pass" class="sr-only">New Password</label>
-<input type="password" id="pass" class="form-control" name="pass" placeholder="Password" required="">
-<button id="btnSignIn" class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
-</form>
+<h1 class="h2 text-center">Sign In</h1>
+<div class="well">
+	<form class="form-sign-in" method="post" action="/verify-user">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label for="email" class="sr-only">Your Email address</label>
+					<input type="email" id="email" name="email" class="form-control" placeholder="Email address" maxlength="50" required="required" autofocus="autofocus" value="regan.bourland@intouchsol.com"/>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="form-group">
+					<label for="pass" class="sr-only">Password</label>
+					<input type="password" id="pass" class="form-control" name="pass" placeholder="Password" maxlength="20" required="required" value="rootpass"/>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<p class="text-center">
+					<button id="btnSubmit" class="btn btn-lg btn-primary" type="submit"> Sign In <i class="fa fa-rotate fa-loading hiding">loading...</i></button>
+				</p>
+			</div>
+		</div>
+	</form>
+	<div class="form-result failure hiding">
+		<p class="error-msg text-center">Unfortunately, there was an error. Please try again or <a href="">log an issue</a>.</p>
+	</div>
+	<div class="form-result successful hiding">
+		<p class="error-msg text-center">You are signed in now.</p>
+	</div>
+</div>
 <!-- /build:content -->
+<!-- build:foot -->
+<script type="text/javascript">
+$(function(){
+	$('.form-sign-in').on('submit', function(event){
+		event.preventDefault();
+		var successful = false;
+		
+		$('#btnSubmit .fa-loading').show();
+		console.log('submit');
+		$.ajax({
+			url: '/verify-user',
+			type: 'POST',
+			data: $('.form-sign-in').serialize(),
+			success:function(data){
+				console.log('posted: '+data);
+				if (data == 'success'){
+					validateForm(true);
+				} else {
+					validateForm(false);
+				}
+			},
+			error:function(data){
+				console.log('posted err: '+data);
+				validateForm(data);
+			}
+		});
+		
+	});
+	var validateForm = function(successful){
+		if (successful === true) {
+			$('.form-result.successful').show();
+			$('.form-result.failure, .form-sign-up').hide();
+			console.log('form success');
+		} else {
+			$('.form-result.failure, .form-sign-up').show();
+			$('.form-result.successful').hide();
+			console.log(successful);
+		}
+		$('#btnSubmit .fa-loading').hide();
+	}
+});
+</script>
+<!-- /build:foot -->

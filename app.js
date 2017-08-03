@@ -1,10 +1,10 @@
-var express = require('express');
-var app = express();
-var mysql = require('mysql');
+var express = require('express'),
+	app = express(),
+	mysql = require('mysql');
 
-var conPass = 'rootpass';
-var conDataBase = 'unboxakanban';
-var conTable = 'users';
+var conPass = 'rootpass',
+	conDataBase = 'unboxakanban',
+	conTable = 'users';
 
 var connection = mysql.createConnection({
 	host     : 'localhost',
@@ -43,8 +43,8 @@ app.use('/resources/script',  express.static(__dirname + '/resources/script'));
 app.get('/',function(req,res){
     res.sendFile('home.html',{'root': __dirname + mvcViews});
 });
-app.get('/user',function(req,res){
-    res.sendFile('user.html',{'root': __dirname + mvcViews});
+app.get('/dashboard',function(req,res){
+    res.sendFile('userDashboard.html',{'root': __dirname + mvcViews});
 });
 app.get('/sign-in',function(req,res){
     res.sendFile('userSignIn.html',{'root': __dirname + mvcViews});
@@ -52,50 +52,58 @@ app.get('/sign-in',function(req,res){
 app.get('/sign-in-retry',function(req,res){
     res.sendFile('userSignInRetry.html',{'root': __dirname + mvcViews});
 });
-app.get('/signed-in',function(req,res){
-    res.sendFile('userSignedIn.html',{'root': __dirname + mvcViews});
-});
 app.get('/sign-up',function(req,res){
 	res.sendFile('userSignUp.html',{'root':__dirname + mvcViews})
 });
-app.get('/signed-up',function(req,res){
-    res.sendFile('userSignedUp.html',{'root': __dirname + mvcViews});
-});
 
-
-app.post('/createuser', function(req, res) {
-	//console.log(req.body);
-
-	var record = {email: req.body.email, pass: req.body.pass};
-	connection.query('INSERT INTO `'+conTable+'` SET ?', record, function(err,res){
+app.post('/create-user', function(req, res) {
+	console.log(req.body);
+	
+	var results = '',
+		record = {
+			email: req.body.email, 
+			pass: req.body.pass, 
+			initials: req.body.initials
+		};
+		
+	connection.query('INSERT INTO `'+conTable+'` SET ?', record, function(err, res){
 	  	if(err) {
 	  		throw err;
+	  		results = err;
 	  	} else {
-			//console.log('Last record insert id:', res.insertId);
+			console.log('Last record insert id:', res.insertId);
+	  		results = 'success';
 	  	}
 	});
-	res.redirect('/signed-up');
-	res.end();
+	//res.redirect('/sign-in');
+	//res.end();
+	return results;
 });
 
 
-app.post('/verifyuser', function(req,res){
+app.post('/verify-user', function(req, res){
 	//console.log('checking user in database');
-	//console.log(req.body.email);
-	//console.log(req.body.pass);
+	//console.log('email: '+req.body.email);
+	//console.log('pass: '+req.body.pass);
 	
-	var selectString = 'SELECT COUNT(email) FROM `'+conTable+'` WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'";';	
+	var results = '',
+		selectString = 'SELECT COUNT(email) FROM `'+conTable+'` WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'";';
 	
-	connection.query(selectString, function(err, results) {
-	    var string=JSON.stringify(results);
-	    //console.log(string);
+	connection.query(selectString, function(err, resu) {
+	    var string=JSON.stringify(resu);
+	    console.log(string);
 
 	    if (string === '[{"COUNT(email)":1}]') {
-			res.redirect('/signed-in');
+	    	results = 'success';
+	    	console.log('login success');
+			res.redirect('/dashboard');
 	    } else {
-	    	console.log('Login Error: '+err);
+	    	results = err;
+	    	console.log('login error');
 	    	res.redirect('/sign-in-retry');
 	    }
+		console.log('RESULTS: '+results);
+		return results;
 		res.end();
 	});
 });
