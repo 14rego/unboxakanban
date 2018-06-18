@@ -3,7 +3,7 @@
 <!-- build:content -->
 <h1 class="h2 text-center">Sign Up</h1>
 <div class="well">
-	<form class="form-sign-up" method="post" action="/create-user">
+	<form class="form-sign-up" method="post" action="/user-create">
 		<div class="row">
 			<div class="col-xs-12 col-sm-8 col-md-9">
 				<div class="form-group">
@@ -45,42 +45,5 @@
 <!-- /build:content -->
 <!-- build:foot -->
 <script type="text/javascript">
-$(function(){
-	$('.form-sign-up').on('submit', function(event){
-		event.preventDefault();
-		var successful = false;
-		
-		$('#btnSubmit .fa-loading').show();
-		console.log('submit');
-		$.ajax({
-			url: '/create-user',
-			type:'POST',
-			data: $('.form-sign-up').serialize(),
-			success:function(response){
-				if (response == 'success'){
-					validateFrom(true);
-				} else {
-					validateFrom(response);
-				}
-			},
-			error:function(error){
-				validateFrom(error);
-			}
-		});
-		
-	});
-	var validateForm = function(successful){
-		if (successful === true) {
-			$('.form-result.successful').show();
-			$('.form-result.failure, .form-sign-up').hide();
-			console.log('form success');
-		} else {
-			$('.form-result.failure, .form-sign-up').show();
-			$('.form-result.successful').hide();
-			console.log(successful);
-		}
-		$('#btnSubmit .fa-loading').hide();
-	}
-});
 </script>
 <!-- /build:foot -->

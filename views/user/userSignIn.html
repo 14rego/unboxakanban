@@ -2,8 +2,8 @@
 <!-- build:title -->Sign In<!-- /build:title -->
 <!-- build:content -->
 <h1 class="h2 text-center">Sign In</h1>
-<div class="well">
-	<form class="form-sign-in" method="post" action="/verify-user">
+<div class="well" id="user">
+	<form class="form-sign-in" method="post" action="/user-verify">
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="form-group">
@@ -31,51 +31,9 @@
 	<div class="form-result failure hiding">
 		<p class="error-msg text-center">Unfortunately, there was an error. Please try again or <a href="">log an issue</a>.</p>
 	</div>
-	<div class="form-result successful hiding">
-		<p class="error-msg text-center">You are signed in now.</p>
-	</div>
 </div>
 <!-- /build:content -->
 <!-- build:foot -->
 <script type="text/javascript">
-$(function(){
-	$('.form-sign-in').on('submit', function(event){
-		event.preventDefault();
-		var successful = false;
-		
-		$('#btnSubmit .fa-loading').show();
-		console.log('submit');
-		$.ajax({
-			url: '/verify-user',
-			type: 'POST',
-			data: $('.form-sign-in').serialize(),
-			success:function(data){
-				console.log('posted: '+data);
-				if (data == 'success'){
-					validateForm(true);
-				} else {
-					validateForm(false);
-				}
-			},
-			error:function(data){
-				console.log('posted err: '+data);
-				validateForm(data);
-			}
-		});
-		
-	});
-	var validateForm = function(successful){
-		if (successful === true) {
-			$('.form-result.successful').show();
-			$('.form-result.failure, .form-sign-up').hide();
-			console.log('form success');
-		} else {
-			$('.form-result.failure, .form-sign-up').show();
-			$('.form-result.successful').hide();
-			console.log(successful);
-		}
-		$('#btnSubmit .fa-loading').hide();
-	}
-});
 </script>
 <!-- /build:foot -->

@@ -1,6 +1,7 @@
 var express = require('express'),
 	app = express(),
-	mysql = require('mysql');
+	mysql = require('mysql'),
+	router = express.Router();
 
 var conPass = 'rootpass',
 	conDataBase = 'unboxakanban',
@@ -43,20 +44,20 @@ app.use('/resources/script',  express.static(__dirname + '/resources/script'));
 app.get('/',function(req,res){
     res.sendFile('home.html',{'root': __dirname + mvcViews});
 });
+app.get('/authenticated',function(req,res){
+	res.redirect('success');
+});
 app.get('/dashboard',function(req,res){
     res.sendFile('userDashboard.html',{'root': __dirname + mvcViews});
 });
 app.get('/sign-in',function(req,res){
     res.sendFile('userSignIn.html',{'root': __dirname + mvcViews});
 });
-app.get('/sign-in-retry',function(req,res){
-    res.sendFile('userSignInRetry.html',{'root': __dirname + mvcViews});
-});
 app.get('/sign-up',function(req,res){
 	res.sendFile('userSignUp.html',{'root':__dirname + mvcViews})
 });
 
-app.post('/create-user', function(req, res) {
+app.post('/user-create', function(req, res) {
 	console.log(req.body);
 	
 	var results = '',
@@ -75,35 +76,32 @@ app.post('/create-user', function(req, res) {
 	  		results = 'success';
 	  	}
 	});
-	//res.redirect('/sign-in');
-	//res.end();
 	return results;
 });
 
 
-app.post('/verify-user', function(req, res){
-	//console.log('checking user in database');
+app.post('/user-verify', function(req, res){
+	console.log('Verifying User');
 	//console.log('email: '+req.body.email);
 	//console.log('pass: '+req.body.pass);
 	
 	var results = '',
-		selectString = 'SELECT COUNT(email) FROM `'+conTable+'` WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'";';
+		selectString = 'SELECT COUNT(email) as found FROM `'+conTable+'` WHERE email="'+req.body.email+'" AND pass="'+req.body.pass+'";';
 	
 	connection.query(selectString, function(err, resu) {
-	    var string=JSON.stringify(resu);
-	    console.log(string);
-
-	    if (string === '[{"COUNT(email)":1}]') {
-	    	results = 'success';
-	    	console.log('login success');
+	    var jsonResult = JSON.parse(JSON.stringify(resu)),
+	    	_found = jsonResult[0].found;
+	    
+		//console.log(_found);
+		if (_found === 1) {
+			console.log('Login success');
+	  		results = 'success';
 			res.redirect('/dashboard');
-	    } else {
-	    	results = err;
-	    	console.log('login error');
-	    	res.redirect('/sign-in-retry');
-	    }
-		console.log('RESULTS: '+results);
-		return results;
-		res.end();
+		} else {
+			console.log('Login error');
+			results = err;
+			res.redirect('/sign-in?l=user&m=failed');
+		}
 	});
+	return results;
 });
